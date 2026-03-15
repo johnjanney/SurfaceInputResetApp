@@ -1,0 +1,127 @@
+<Window x:Class="SurfaceInputResetApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Surface Input Reset"
+        Width="900"
+        Height="620"
+        MinWidth="820"
+        MinHeight="560"
+        WindowStartupLocation="CenterScreen"
+        Background="#FFF8F7F2">
+    <Grid Margin="18">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0"
+                Margin="0,0,0,14"
+                Padding="18"
+                Background="#FF1F3A5F"
+                CornerRadius="14">
+            <StackPanel>
+                <TextBlock FontSize="24"
+                           FontWeight="SemiBold"
+                           Foreground="White"
+                           Text="Surface keyboard + trackpad reset" />
+                <TextBlock Margin="0,8,0,0"
+                           FontSize="14"
+                           Foreground="#FFE4EDF9"
+                           TextWrapping="Wrap"
+                           Text="Select the Surface-related input devices below, then restart them to recover from Type Cover or trackpad lockups." />
+            </StackPanel>
+        </Border>
+
+        <TextBlock Grid.Row="1"
+                   Margin="2,0,0,12"
+                   Foreground="#FF4E5D6C"
+                   TextWrapping="Wrap"
+                   Text="Tip: the list is pre-sorted so Surface and touchpad devices appear first. The restart action briefly disables and re-enables each selected device." />
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2.5*" />
+                <ColumnDefinition Width="1.15*" />
+            </Grid.ColumnDefinitions>
+
+            <GroupBox Header="Candidate devices" Margin="0,0,12,0">
+                <DockPanel Margin="8">
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,8">
+                        <Button x:Name="RefreshButton"
+                                Width="110"
+                                Margin="0,0,8,0"
+                                Padding="10,6"
+                                Click="RefreshButton_OnClick"
+                                Content="Refresh list" />
+                        <Button x:Name="SelectSuggestedButton"
+                                Width="130"
+                                Padding="10,6"
+                                Click="SelectSuggestedButton_OnClick"
+                                Content="Select suggested" />
+                    </StackPanel>
+
+                    <DataGrid x:Name="DeviceGrid"
+                              AutoGenerateColumns="False"
+                              CanUserAddRows="False"
+                              CanUserDeleteRows="False"
+                              IsReadOnly="True"
+                              SelectionMode="Extended"
+                              SelectionUnit="FullRow"
+                              BorderThickness="0"
+                              HeadersVisibility="Column"
+                              RowHeaderWidth="0"
+                              FontSize="13">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Width="2.2*" Binding="{Binding FriendlyName}" Header="Device" />
+                            <DataGridTextColumn Width="0.8*" Binding="{Binding ClassName}" Header="Class" />
+                            <DataGridTextColumn Width="1*" Binding="{Binding Manufacturer}" Header="Maker" />
+                            <DataGridTextColumn Width="0.7*" Binding="{Binding Status}" Header="Status" />
+                            <DataGridTextColumn Width="2.6*" Binding="{Binding InstanceId}" Header="Instance ID" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </DockPanel>
+            </GroupBox>
+
+            <StackPanel Grid.Column="1">
+                <GroupBox Header="Actions" Margin="0,0,0,12">
+                    <StackPanel Margin="12">
+                        <Button x:Name="RestartSelectedButton"
+                                Height="42"
+                                Margin="0,0,0,8"
+                                Click="RestartSelectedButton_OnClick"
+                                Content="Restart selected devices" />
+                        <Button x:Name="CopyIdsButton"
+                                Height="34"
+                                Click="CopyIdsButton_OnClick"
+                                Content="Copy selected instance IDs" />
+                    </StackPanel>
+                </GroupBox>
+
+                <GroupBox Header="Status">
+                    <TextBox x:Name="LogBox"
+                             Height="300"
+                             Margin="12"
+                             AcceptsReturn="True"
+                             IsReadOnly="True"
+                             VerticalScrollBarVisibility="Auto"
+                             TextWrapping="Wrap"
+                             BorderThickness="0"
+                             Background="#FFF3F0E8"
+                             FontFamily="Consolas"
+                             FontSize="12" />
+                </GroupBox>
+            </StackPanel>
+        </Grid>
+
+        <TextBlock Grid.Row="3"
+                   Margin="2,14,0,0"
+                   Foreground="#FF6A737D"
+                   TextWrapping="Wrap"
+                   Text="Runs elevated. If Windows does not recover the trackpad, refresh the list and try the next Surface-related HID device." />
+    </Grid>
+</Window>
